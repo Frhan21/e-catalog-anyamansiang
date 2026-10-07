@@ -1,0 +1,53 @@
+@import '@fontsource/outfit/400.css';
+@import '@fontsource/outfit/500.css';
+@import '@fontsource/outfit/600.css';
+@import '@fontsource/outfit/700.css';
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --font-sans: 'Outfit', 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Outfit', 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+    --color-mansiang-green: #4A6B53;
+    --color-mansiang-dark: #2A3D2F;
+    --color-mansiang-warm: #A36A43;
+    --color-mansiang-ochre: #C88D58;
+    --color-mansiang-ivory: #FDFBF7;
+    --color-mansiang-canvas: #FDFBF7;
+    --color-mansiang-surface: #F4EFE6;
+    --color-mansiang-charcoal: #1F2923;
+    --color-mansiang-ink: #2A3D2F;
+    --color-mansiang-taupe: #706E6B;
+}
+
+:root {
+    color-scheme: light;
+}
+
+.dark {
+    color-scheme: dark;
+    --color-mansiang-canvas: #121A14;
+    --color-mansiang-surface: #1E2822;
+    --color-mansiang-charcoal: #EAE6DC;
+    --color-mansiang-ink: #EAE6DC;
+    --color-mansiang-taupe: #A6A59F;
+    --color-mansiang-warm: #C9875A;
+    --color-mansiang-ochre: #D59A63;
+}
+
+.dark [data-public-site] .bg-white {
+    background-color: #202B23;
+}
+
+.dark [data-public-site] .bg-mansiang-ochre.text-mansiang-dark {
+    color: #2A3D2F;
+}
+
+.dark [data-public-site] .bg-mansiang-ochre.text-mansiang-ink {
+    color: #2A3D2F;
+}

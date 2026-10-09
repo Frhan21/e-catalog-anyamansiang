@@ -29,7 +29,10 @@ jobs:
       - name: Prepare test environment
         run: |
           cp .env.example .env
+          sed -i 's/^APP_LOCALE=.*/APP_LOCALE=id/' .env
           php artisan key:generate
+          mkdir -p storage/app/public/products
+          php -r '$image = imagecreatetruecolor(1, 1); imagejpeg($image, "storage/app/public/products/tikar-munjung.jpg");'
       - uses: actions/setup-node@v4
         with:
           node-version: '22'

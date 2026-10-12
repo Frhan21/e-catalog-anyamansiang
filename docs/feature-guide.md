@@ -103,7 +103,8 @@
 
 ### 11. Penutupan fitur inti
 - Share WhatsApp, Facebook, dan salin tautan tersedia di detail produk.
-- Detail produk dan artikel memakai canonical, Open Graph, dan Twitter Card dinamis.
+- Semua halaman publik memakai canonical, Open Graph, dan Twitter Card dengan URL absolut.
+- Detail produk memakai foto utama dan artikel memakai featured image; bila kosong atau halaman tidak punya gambar, fallback ke `public/images/branding/og-default.png`.
 - Galeri About memakai mosaic otomatis maksimal 10 gambar; shape ditentukan posisi dan gambar memakai `object-cover`.
 - Purpose memakai tepat 3 item pada CMS dan frontend.
 - Issue 09–14 dan 19 berstatus `done` setelah test otomatis dan smoke test browser desktop/mobile.

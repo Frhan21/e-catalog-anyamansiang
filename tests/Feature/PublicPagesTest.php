@@ -276,10 +276,21 @@ it('renders product seo metadata and share controls', function () {
         ->assertSee('<meta property="og:type" content="product"', false)
         ->assertSee('<meta property="og:url" content="'.e(route('products.show', $product)).'"', false)
         ->assertSee('<meta name="twitter:card" content="summary_large_image"', false)
+        ->assertSee('<meta property="og:image" content="'.e(url('/storage/products/tikar-munjung.jpg')).'"', false)
         ->assertSee('wa.me/?text=')
         ->assertSee('Bagikan ke WhatsApp')
         ->assertSee('data-share-copy')
         ->assertSee('Salin tautan');
+});
+
+it('renders fallback seo metadata on the landing page', function () {
+    $this->get('/')
+        ->assertOk()
+        ->assertSee('<meta property="og:image" content="'.e(asset('images/branding/og-default.png')).'"', false)
+        ->assertSee('<meta property="og:image:width" content="1733"', false)
+        ->assertSee('<meta property="og:image:height" content="907"', false)
+        ->assertSee('<meta property="og:image:type" content="image/png"', false)
+        ->assertSee('<meta name="twitter:image" content="'.e(asset('images/branding/og-default.png')).'"', false);
 });
 
 it('renders post seo metadata', function () {

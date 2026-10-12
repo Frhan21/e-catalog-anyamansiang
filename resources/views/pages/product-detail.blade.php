@@ -5,7 +5,7 @@
     @section('og_title', $product->name)
     @section('og_description', strip_tags($product->description ?: setting('site_general.site_tagline')))
     @section('og_type', 'product')
-    @section('og_image', media_url($product->primary_image))
+    @section('og_image', $product->primary_image ? media_url($product->primary_image) : '')
     @section('content')
         <section class="mx-auto max-w-6xl px-4 py-10 sm:py-14">
             <nav class="mb-8 flex items-center gap-2 text-sm text-mansiang-taupe" aria-label="Breadcrumb">

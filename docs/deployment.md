@@ -56,8 +56,10 @@ Setelah `php artisan up` dan switch selesai:
 3. Smoke test cart: add, ubah qty, hapus, checkout valid, dan kasus kontak gagal.
 4. Smoke test mobile drawer/nav dan halaman publik pada viewport kecil.
 5. Verifikasi path asset Vite dan symlink storage publik.
-6. Verifikasi environment production tetap `APP_DEBUG=false`.
-7. Catat hasil smoke test dalam catatan release; jangan menyatakan sukses bila langkah tidak dijalankan.
+6. Verifikasi `APP_URL` berisi domain HTTPS production agar canonical dan meta image menjadi URL absolut production.
+7. Buka `public/images/branding/og-default.png` langsung tanpa login, lalu uji satu URL lewat Facebook Sharing Debugger/LinkedIn Post Inspector.
+8. Verifikasi environment production tetap `APP_DEBUG=false`.
+9. Catat hasil smoke test dalam catatan release; jangan menyatakan sukses bila langkah tidak dijalankan.
 
 ## Rollback
 

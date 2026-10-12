@@ -32,6 +32,14 @@ Website e-katalog modern, artisanal, dan interaktif untuk Koperasi Anyaman Mansi
 ### Footer
 - Identitas koperasi, navigasi, kontak, jam operasional, media sosial, dan peta.
 
+## Metadata Share
+- Semua halaman publik selalu punya `og:title`, `og:description`, `og:type`, `og:url`, `og:image`, dan `twitter:card`.
+- `og:image` dan `twitter:image` wajib URL absolut; `url()` untuk path storage, `asset()` untuk fallback publik.
+- Fallback share: `public/images/branding/og-default.png` (1733x907, PNG). Dipakai saat produk atau artikel tidak punya gambar. Fallback juga menjadi `og:image` halaman tanpa section gambar.
+- Dimensi dan tipe gambar hanya dinyatakan untuk fallback, karena dimensi gambar produk/artikel tidak tercatat di database.
+- Nilai diambil dari section halaman; halaman tanpa section memakai nama/tagline situs dan URL saat ini.
+- Tidak ada pemeriksaan URL eksternal dari server; gambar storage/CDN harus dapat diakses publik tanpa login.
+
 ## About Page
 - Sejarah awal berdiri koperasi.
 - Proses produksi ditulis sebagai narasi CMS dan/atau galeri existing dari `about_content`, tanpa menambah fakta bisnis yang belum diberikan pemilik.
@@ -73,6 +81,7 @@ Website e-katalog modern, artisanal, dan interaktif untuk Koperasi Anyaman Mansi
 - CTA pembelian hanya tampil jika produk aktif (`Tambah ke Keranjang` + `Beli Sekarang`).
 - Tombol share WhatsApp, salin tautan, dan Facebook; semua kontak WhatsApp lewat `WhatsAppHelper` tanpa hardcode nomor.
 - Canonical URL, Open Graph, dan Twitter Card dinamis sesuai produk yang sedang dilihat.
+- `og:image` dan `twitter:image` wajib berupa URL absolut. Detail produk memakai foto utama produk jika ada; jika kosong memakai fallback `public/images/branding/og-default.png`.
 
 ## Cart & Buy
 
@@ -131,6 +140,7 @@ Setelah URL WhatsApp valid terbentuk, keranjang dikosongkan dan WhatsApp dibuka.
 - Hanya artikel `published` dan `published_at <= now()` yang tampil publik.
 - Detail menampilkan judul, featured image, kategori, penulis, tanggal, reading time, dan HTML dari Rich Editor.
 - Canonical URL, Open Graph, dan Twitter Card dinamis sesuai artikel yang sedang dilihat.
+- `og:image` dan `twitter:image` wajib berupa URL absolut. Detail artikel memakai featured image jika ada; jika kosong memakai fallback `public/images/branding/og-default.png`.
 
 ## Acceptance Criteria Utama
 - Pengunjung dapat menemukan produk melalui search dan filter tanpa full-page reload.

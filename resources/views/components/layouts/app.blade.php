@@ -16,18 +16,29 @@
     <link rel="icon" href="{{ branding_url() }}">
     <title>@yield('title', setting('site_general.site_name', 'Koperasi Anyaman Mansiang'))</title>
     <meta name="description" content="@yield('description', setting('site_general.site_tagline'))">
-    @hasSection('canonical')
-        <link rel="canonical" href="@yield('canonical')">
-        <meta property="og:title" content="@yield('og_title')">
-        <meta property="og:description" content="@yield('og_description')">
-        <meta property="og:type" content="@yield('og_type', 'website')">
-        <meta property="og:url" content="@yield('canonical')">
-        @hasSection('og_image')<meta property="og:image" content="@yield('og_image')">@endif
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="@yield('og_title')">
-        <meta name="twitter:description" content="@yield('og_description')">
-        @hasSection('og_image')<meta name="twitter:image" content="@yield('og_image')">@endif
+    @php
+        $ogImage = trim($__env->yieldContent('og_image'));
+        $isDefaultImage = $ogImage === '';
+        $ogImageUrl = $isDefaultImage ? asset('images/branding/og-default.png') : url($ogImage);
+        $ogTitle = trim($__env->yieldContent('og_title')) ?: trim($__env->yieldContent('title')) ?: setting('site_general.site_name', 'Koperasi Anyaman Mansiang');
+        $ogDescription = trim($__env->yieldContent('og_description')) ?: trim($__env->yieldContent('description')) ?: setting('site_general.site_tagline', 'Sentuhan Tradisi, Keindahan Alami');
+        $canonical = trim($__env->yieldContent('canonical')) ?: url()->current();
+    @endphp
+    <link rel="canonical" href="{{ $canonical }}">
+    <meta property="og:title" content="{{ $ogTitle }}">
+    <meta property="og:description" content="{{ $ogDescription }}">
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:url" content="{{ $canonical }}">
+    <meta property="og:image" content="{{ $ogImageUrl }}">
+    @if($isDefaultImage)
+        <meta property="og:image:width" content="1733">
+        <meta property="og:image:height" content="907">
+        <meta property="og:image:type" content="image/png">
     @endif
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $ogTitle }}">
+    <meta name="twitter:description" content="{{ $ogDescription }}">
+    <meta name="twitter:image" content="{{ $ogImageUrl }}">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles

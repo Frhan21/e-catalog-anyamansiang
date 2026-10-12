@@ -12,17 +12,18 @@ Footer sekarang belum menampilkan lokasi fisik koperasi. Tambahkan map ke footer
 - Dilarang hard-code URL di Blade.
 
 **Acceptance Criteria:**
-- [ ] Map tampil di footer, dibaca dari setting `contact_info.google_maps_embed`.
-- [ ] Admin bisa ganti URL map dari Filament tanpa deploy.
-- [ ] Jika setting kosong, map tidak render.
-- [ ] Jika URL bukan embed URL, map fallback ke link "Buka di Google Maps" (bukan iframe).
-- [ ] Ukuran map proporsional & responsive; tidak bikin scroll horizontal di mobile.
-- [ ] `php artisan test`, `./vendor/bin/pint`, `npm run build` lulus.
+- [x] Map tampil di footer, dibaca dari setting `contact_info.google_maps_embed`.
+- [x] Admin bisa ganti URL map dari Filament tanpa deploy.
+- [x] Jika setting kosong, map tidak render.
+- [x] Jika URL bukan embed URL, map fallback ke link "Buka di Google Maps" (bukan iframe).
+- [x] Ukuran map proporsional & responsive; tidak bikin scroll horizontal di mobile.
+- [x] `php artisan test`, `./vendor/bin/pint`, `npm run build` lulus.
 
 **Blocked by:** None — can start immediately
 
-**Status:** todo
+**Status:** done
 
 **Catatan Testing:**
-- Pest feature: dengan setting berembed URL → iframe render; setting kosong → tidak ada map; setting share URL → link fallback muncul.
-- Manual: cek di desktop & mobile, clear cache Filament → update URL muncul.
+- Pest: embed URL merender iframe; setting kosong tidak merender map; share URL merender fallback link.
+- Manual: responsive desktop/mobile dan perubahan URL dari Filament diverifikasi.
+- Diverifikasi pengguna bersama penutupan fitur inti.

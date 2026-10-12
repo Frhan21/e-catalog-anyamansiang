@@ -22,7 +22,7 @@ Format akses: `key.sub_field`. Kolom `group` hanya untuk pengelompokan halaman a
 
 | group | key | isi |
 |---|---|---|
-| `general` | `site_general` | nama, tagline, logo, favicon, footer |
+| `general` | `site_general` | nama, tagline, logo, footer |
 | `landing` | `landing_hero` | hero landing |
 | `landing` | `landing_about` | cuplikan tentang di landing |
 | `landing` | `landing_purpose` | tujuan & dampak |
@@ -39,11 +39,14 @@ Format akses: `key.sub_field`. Kolom `group` hanya untuk pengelompokan halaman a
 {
   "site_name": "Koperasi Anyaman Mansiang",
   "site_tagline": "Karya Tradisi Taratak, Estetika Alam Berkelanjutan",
-  "logo_path": "settings/logo.png",
-  "favicon_path": "settings/favicon.ico",
+  "logo_path": null,
   "footer_description": "Pusat kerajinan tangan anyaman mansiang asli Taratak."
 }
 ```
+
+`logo_path` adalah satu-satunya field logo CMS: PNG, JPEG, atau WebP maksimal 2 MB di disk `public`, direktori `settings`. Header desktop/mobile, footer, favicon publik, dan branding admin memakai `branding_url()`.
+
+Helper memakai upload yang tersedia, kecuali file dengan SHA-256 `41d12832495c64e6b852daf8d7bc73670da701fe8e2583c556bb074213287eb8` (placeholder seed lama). Upload lain tetap dipakai, termasuk pada path `settings/logo.png`. Path kosong, file hilang, atau placeholder tersebut memakai fallback `public/images/branding/logo.png`. Field legacy logo light/mark/favicon tidak dibaca. Deployment tidak membutuhkan migration atau seeder; payload lama tidak diubah.
 
 ### `landing.landing_hero`
 

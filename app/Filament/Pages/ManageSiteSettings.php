@@ -34,8 +34,9 @@ class ManageSiteSettings extends SettingPage
         return [
             TextInput::make('site_name')->label('Nama Situs')->required(),
             TextInput::make('site_tagline')->label('Tagline')->required(),
-            static::makeImageField('logo_path', 'Logo'),
-            static::makeImageField('favicon_path', 'Favicon'),
+            static::makeImageField('logo_path', 'Logo')
+                ->acceptedFileTypes(['image/png', 'image/webp', 'image/jpeg'])
+                ->maxSize(2048),
             RichEditor::make('footer_description')->label('Deskripsi Footer'),
         ];
     }

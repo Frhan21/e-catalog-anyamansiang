@@ -139,14 +139,27 @@ class Cart extends Component
             'note' => __('note'),
         ]);
 
-        $contact = setting('contact_info.whatsapp_number');
+        $number = setting('contact_info.whatsapp_number');
+        $this->items = session('cart_items', []);
 
-        $url = WhatsAppHelper::cartMessageUrl($contact, $this->items, [
+        if (! $number || $this->items === []) {
+            $this->addError('checkout', __('WhatsApp admin belum diatur atau keranjang kosong.'));
+
+            return;
+        }
+
+        $url = WhatsAppHelper::cartMessageUrl($number, $this->items, [
             'name' => $this->name,
             'phone' => $this->phone,
             'address' => $this->address,
             'note' => $this->note,
         ]);
+
+        if ($url === '#') {
+            $this->addError('checkout', __('Tautan pesanan tidak dapat dibuat.'));
+
+            return;
+        }
 
         session()->forget('cart_items');
         $this->items = [];

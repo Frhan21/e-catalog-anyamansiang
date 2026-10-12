@@ -12,17 +12,18 @@ Tampilan publik saat ini fixed light mode. Tambahkan dark mode agar pengunjung b
 - Pastikan semua section publik (hero, about, purpose, stats, produk, footer, nav) tampil benar di kedua mode.
 
 **Acceptance Criteria:**
-- [ ] Toggle light/dark tersedia di navbar (desktop & mobile) dan dapat diklik.
-- [ ] Pertama kalinya: tema = preferensi sistem (light/dark).
-- [ ] Setelah user klik toggle, pilihan tersimpan dan berlaku di seluruh halaman.
-- [ ] Tidak ada flash light-then-dark saat reload (early script berjalan).
-- [ ] Semua section publik (nav, hero, about, purpose, stats, produk, footer) readable di light & dark mode.
-- [ ] `php artisan test`, `./vendor/bin/pint`, `npm run build` lulus.
+- [x] Toggle light/dark tersedia di navbar (desktop & mobile) dan dapat diklik.
+- [x] Pertama kalinya: tema = preferensi sistem (light/dark).
+- [x] Setelah user klik toggle, pilihan tersimpan dan berlaku di seluruh halaman.
+- [x] Tidak ada flash light-then-dark saat reload (early script berjalan).
+- [x] Semua section publik (nav, hero, about, purpose, stats, produk, footer) readable di light & dark mode.
+- [x] `php artisan test`, `./vendor/bin/pint`, `npm run build` lulus.
 
 **Blocked by:** None — can start immediately
 
-**Status:** todo
+**Status:** done
 
 **Catatan Testing:**
-- Pest feature: assert toggle element exists di nav, assert early theme script ada di layout `<head>`.
-- Manual: reload page → ikut sistem; klik toggle → berubah & persist; cek semua section.
+- Pest: toggle di nav ada, early theme script ada.
+- Manual: reload ikut sistem; klik toggle berubah & persist; semua section readable di light/dark.
+- Diverifikasi pengguna bersama penutupan fitur inti.

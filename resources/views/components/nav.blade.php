@@ -4,9 +4,7 @@
 <header x-data="{ open: false }" @keydown.escape.window="if (open) { open = false; $refs.toggle.focus() }" @click.outside="open = false" class="sticky top-0 z-40 border-b border-mansiang-ink/10 bg-mansiang-canvas/90 backdrop-blur-xl">
     <nav class="mx-auto flex h-20 max-w-7xl items-center justify-between gap-6 px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
         <a href="{{ route('landing') }}" class="flex min-w-0 items-center gap-3">
-            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-mansiang-green text-white shadow-lg shadow-mansiang-green/20">
-                <svg class="h-6 w-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4h16v16H4z"/><path stroke-linecap="round" stroke-linejoin="round" d="M4 9h16M9 4v16"/></svg>
-            </span>
+            <img src="{{ branding_url() }}" alt="{{ setting('site_general.site_name', 'Anyaman Mansiang') }}" class="h-11 w-11 shrink-0 rounded-xl bg-[#FDFBF7] p-1 object-contain sm:h-[52px] sm:w-[52px]">
             <span class="min-w-0 break-words font-display text-base font-bold leading-tight text-mansiang-ink sm:text-xl">{{ setting('site_general.site_name', 'Anyaman Mansiang') }}</span>
         </a>
 

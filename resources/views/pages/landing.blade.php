@@ -107,7 +107,7 @@
                         />
                     </div>
                     <div class="grid gap-6 sm:grid-cols-2">
-                        @foreach(array_slice((array) setting('landing_purpose.items', []), 0, 4) as $index => $item)
+                        @foreach(array_slice((array) setting('landing_purpose.items', []), 0, 3) as $index => $item)
                             <article class="group relative min-h-72 overflow-hidden rounded-[2rem] lg:min-h-80" data-animate>
                                 <img src="{{ media_url($item['image'] ?? null, 'settings/purpose-'.($index + 1).'.jpg') }}" alt="{{ media_alt($item['image'] ?? null, $item['title'] ?? '') }}" class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105">
                                 <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-mansiang-dark via-mansiang-dark/70 to-transparent p-6">

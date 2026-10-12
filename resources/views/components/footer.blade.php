@@ -19,14 +19,12 @@
         <div class="grid gap-12 md:grid-cols-4">
             <div class="md:col-span-2">
                 <div class="flex items-center gap-3">
-                    <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-mansiang-green text-white">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4h16v16H4z"/><path stroke-linecap="round" stroke-linejoin="round" d="M4 9h16M9 4v16"/></svg>
-                    </span>
-                    <span class="font-display text-xl font-bold">{{ setting('site_general.site_name', 'Koperasi Anyaman Mansiang') }}</span>
+                    <img src="{{ branding_url() }}" alt="{{ setting('site_general.site_name', 'Koperasi Anyaman Mansiang') }}" class="h-12 w-12 shrink-0 rounded-xl bg-[#FDFBF7] p-1 object-contain">
+                    <span class="max-w-56 text-balance font-display text-xl font-bold leading-snug">{{ setting('site_general.site_name', 'Koperasi Anyaman Mansiang') }}</span>
                 </div>
                 <p class="mt-4 max-w-md text-sm leading-relaxed text-mansiang-ivory/70">{!! setting('site_general.footer_description', 'Pusat kerajinan tangan anyaman mansiang asli Taratak.') !!}</p>
                 @if($map)
-                    <div class="mt-6 max-w-sm space-y-3">
+                    <div class="mt-6 max-w-lg space-y-3">
                         <h4 class="text-sm font-bold uppercase tracking-[0.18em] text-mansiang-ochre">@lang('Lokasi')</h4>
                         @if($embedUrl)
                             <iframe src="{{ $embedUrl }}" title="@lang('Peta lokasi')" class="h-40 w-full rounded-2xl border-0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -77,8 +75,8 @@
                 </ul>
             </div>
         </div>
-        <div class="mt-12 border-t border-mansiang-ivory/10 pt-6 text-center text-xs text-mansiang-ivory/60">
-            <p>@lang('Foto contoh di situs ini bukan dokumentasi Koperasi Anyaman Mansiang.')</p>
+        <div class="mt-12 border-t border-mansiang-ivory/10 pt-6 text-center text-md text-mansiang-ivory/60">
+            {{-- <p>@lang('Foto contoh di situs ini bukan dokumentasi Koperasi Anyaman Mansiang.')</p>
             <p class="mt-2">
                 @lang('Foto kerajinan anyaman dari')
                 <a href="https://commons.wikimedia.org/wiki/File:Basket_weaving_crafts_on_display_at_Rumeilah_Park_in_Doha.jpg" target="_blank" rel="noopener" class="underline transition hover:text-mansiang-ochre">Alex Sergeev</a>
@@ -89,7 +87,7 @@
                 <a href="https://commons.wikimedia.org/wiki/File:Basket_weaver.jpg" target="_blank" rel="noopener" class="underline transition hover:text-mansiang-ochre">Masako Kato</a>
                 (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener" class="underline transition hover:text-mansiang-ochre">CC BY-SA 4.0</a>)
                 @lang('via Wikimedia Commons.')
-            </p>
+            </p> --}}
             &copy; {{ date('Y') }} {{ setting('site_general.site_name', 'Koperasi Anyaman Mansiang') }}. @lang('Seluruh hak cipta.')
         </div>
     </div>

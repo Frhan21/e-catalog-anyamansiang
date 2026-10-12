@@ -11,17 +11,18 @@ Statistik sekarang berada di bawah section tujuan dan hanya statis. Pindahkan bl
 - Tidak menambah dependency baru; gunakan GSAP/ScrollTrigger yang sudah ada atau native IntersectionObserver.
 
 **Acceptance Criteria:**
-- [ ] Statistik tampil sebelum section tujuan di landing page.
-- [ ] Setiap statistik menampilkan counter animation dari 0 ke nilai akhir saat scroll masuk viewport.
-- [ ] Counter berhenti di nilai akhir yang benar (termasuk suffix `+`, `%`).
-- [ ] `prefers-reduced-motion: reduce` menampilkan nilai akhir langsung tanpa animasi.
-- [ ] Nilai non-numeric (misal `N/A`) tetap tampil benar tanpa JS error.
-- [ ] `php artisan test`, `./vendor/bin/pint`, `npm run build` lulus.
+- [x] Statistik tampil sebelum section tujuan di landing page.
+- [x] Setiap statistik menampilkan counter animation dari 0 ke nilai akhir saat scroll masuk viewport.
+- [x] Counter berhenti di nilai akhir yang benar (termasuk suffix `+`, `%`).
+- [x] `prefers-reduced-motion: reduce` menampilkan nilai akhir langsung tanpa animasi.
+- [x] Nilai non-numeric (misal `N/A`) tetap tampil benar tanpa JS error.
+- [x] `php artisan test`, `./vendor/bin/pint`, `npm run build` lulus.
 
 **Blocked by:** None — can start immediately
 
-**Status:** todo
+**Status:** done
 
 **Catatan Testing:**
-- Pest feature: assert stats markup muncul sebelum purpose markup di HTML landing.
-- Manual: scroll ke section, counter berjalan; toggle reduced-motion, nilai langsung tampil.
+- Pest: counter muncul sebelum tujuan di HTML landing.
+- Manual: counter berjalan saat scroll masuk viewport; reduced-motion menampilkan nilai akhir langsung.
+- Diverifikasi pengguna bersama penutupan fitur inti.

@@ -1,6 +1,16 @@
 <x-layouts.app>
-    @section('title', $post->meta_title ?: ($post->title . ' — ' . setting('site_general.site_name', 'Koperasi Anyaman Mansiang')))
-    @section('description', $post->meta_description ?: $post->excerpt)
+    @php
+        $siteName = setting('site_general.site_name', 'Koperasi Anyaman Mansiang');
+        $ogTitle = $post->meta_title ?: ($post->title . ' — ' . $siteName);
+        $ogDescription = $post->meta_description ?: $post->excerpt;
+    @endphp
+    @section('title', $ogTitle)
+    @section('description', $ogDescription)
+    @section('canonical', route('posts.show', $post))
+    @section('og_title', $ogTitle)
+    @section('og_description', $ogDescription)
+    @section('og_type', 'article')
+    @section('og_image', media_url($post->featured_image))
     @section('content')
         <article class="bg-mansiang-canvas">
             <header class="mx-auto max-w-7xl px-4 pt-12 sm:px-6 md:pt-20 lg:px-8">

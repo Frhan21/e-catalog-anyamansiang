@@ -251,5 +251,60 @@ it('does not treat a category slug as a post slug', function () {
     $category = PostCategory::create(['name' => 'Cerita', 'slug' => 'cerita']);
 
     $this->get('/blog/category/'.$category->slug)->assertOk();
-    $this->get('/blog/cerita')->assertNotFound();
+    $this->get('/blog/cerita-bohong')->assertNotFound();
+});
+
+it('renders product seo metadata and share controls', function () {
+    $category = ProductCategory::create(['name' => 'Tikar', 'slug' => 'tikar']);
+    $product = Product::create([
+        'category_id' => $category->id,
+        'name' => 'Tikar Munjung',
+        'slug' => 'tikar-munjung',
+        'price' => 185000,
+        'primary_image' => 'products/tikar-munjung.jpg',
+        'description' => 'Tikar anyaman mansiang.',
+        'availability_status' => AvailabilityStatus::ReadyStock,
+        'is_active' => true,
+    ]);
+
+    $response = $this->get('/products/'.$product->slug);
+
+    $response
+        ->assertOk()
+        ->assertSee('<link rel="canonical" href="'.e(route('products.show', $product)).'"', false)
+        ->assertSee('<meta property="og:title"', false)
+        ->assertSee('<meta property="og:type" content="product"', false)
+        ->assertSee('<meta property="og:url" content="'.e(route('products.show', $product)).'"', false)
+        ->assertSee('<meta name="twitter:card" content="summary_large_image"', false)
+        ->assertSee('wa.me/?text=')
+        ->assertSee('Bagikan ke WhatsApp')
+        ->assertSee('data-share-copy')
+        ->assertSee('Salin tautan');
+});
+
+it('renders post seo metadata', function () {
+    $postCategory = PostCategory::create(['name' => 'Cerita', 'slug' => 'cerita']);
+    $post = Post::create([
+        'post_category_id' => $postCategory->id,
+        'title' => 'Mengenal Mansiang',
+        'slug' => 'mengenal-mansiang',
+        'content' => '<p>Isi artikel.</p>',
+        'excerpt' => 'Mansiang adalah tanaman serat alami.',
+        'featured_image' => 'posts/mansiang.jpg',
+        'meta_title' => 'Mengenal Mansiang — Mansiang Kita',
+        'meta_description' => 'Deskripsi meta artikel.',
+        'status' => PostStatus::Published,
+        'published_at' => now(),
+    ]);
+
+    $response = $this->get('/blog/'.$post->slug);
+
+    $response
+        ->assertOk()
+        ->assertSee('<link rel="canonical" href="'.e(route('posts.show', $post)).'"', false)
+        ->assertSee('<meta property="og:title" content="'.e($post->meta_title).'"', false)
+        ->assertSee('<meta property="og:description" content="'.e($post->meta_description).'"', false)
+        ->assertSee('<meta property="og:type" content="article"', false)
+        ->assertSee('<meta property="og:url" content="'.e(route('posts.show', $post)).'"', false)
+        ->assertSee('<meta name="twitter:card" content="summary_large_image"', false);
 });

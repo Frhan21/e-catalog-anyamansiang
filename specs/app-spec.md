@@ -34,9 +34,13 @@ Website e-katalog modern, artisanal, dan interaktif untuk Koperasi Anyaman Mansi
 
 ## About Page
 - Sejarah awal berdiri koperasi.
-- Proses produksi (budidaya, pengeringan, pewarnaan, penganyaman).
+- Proses produksi ditulis sebagai narasi CMS dan/atau galeri existing dari `about_content`, tanpa menambah fakta bisnis yang belum diberikan pemilik.
 - Dampak sosial dan ekonomi.
-- Galeri kegiatan dengan slider/lightbox.
+- Galeri kegiatan render maksimal 10 foto sebagai mosaic dengan caption overlay sesuai issue 16.
+- Admin mengunggah gambar dan caption melalui `about_content.gallery`; bentuk slot ditentukan frontend secara otomatis, bukan dipilih admin.
+- Mobile memakai 2 kolom dengan rasio 4:5. Mulai breakpoint `md`, indeks 0, 3, 6, 9 memakai 7 dari 12 kolom dengan rasio 16:10; sisanya 5 kolom dengan rasio 4:5.
+- Gambar memakai `object-cover`: memenuhi slot tanpa distorsi, dengan kemungkinan pemotongan tepi. Item setelah foto ke-10 tetap tersimpan tetapi tidak ditampilkan.
+- Tidak ada modal/lightbox dan tidak ada dependency baru untuk galeri.
 
 ## Katalog
 
@@ -67,12 +71,13 @@ Website e-katalog modern, artisanal, dan interaktif untuk Koperasi Anyaman Mansi
 - Estimasi produksi jika status `pre_order`.
 - Produk terkait maksimal 4 dari kategori sama.
 - CTA pembelian hanya tampil jika produk aktif (`Tambah ke Keranjang` + `Beli Sekarang`).
-- Tombol share WhatsApp, Facebook, dan salin tautan.
+- Tombol share WhatsApp, salin tautan, dan Facebook; semua kontak WhatsApp lewat `WhatsAppHelper` tanpa hardcode nomor.
+- Canonical URL, Open Graph, dan Twitter Card dinamis sesuai produk yang sedang dilihat.
 
 ## Cart & Buy
 
 ### Prinsip
-- Keranjang disimpan di **session** (tanpa tabel DB, tanpa auth).
+- Keranjang disimpan di **session** (tanpa tabel DB, tanpa auth). Session adalah sumber kebenaran isi keranjang; harga item adalah snapshot saat tambah ke keranjang, kembali dibaca dari session saat checkout, bukan dari state sementara komponen.
 - Tidak ada pembayaran realtime; checkout mengirim isi keranjang sebagai pesan WhatsApp.
 - Semua tautan WhatsApp dibangun lewat `App\Helpers\WhatsAppHelper`.
 
@@ -91,6 +96,10 @@ Website e-katalog modern, artisanal, dan interaktif untuk Koperasi Anyaman Mansi
 ### Checkout (di dalam drawer)
 - Field wajib: Nama (`required|max:100`), No. Telp (`regex:/^[0-9+\-\s]{9,17}$/`), Alamat (`required|max:500`).
 - Field opsional: Catatan.
+- Nomor WhatsApp tujuan wajib terisi dan valid sebelum URL WhatsApp dibuat. Jika URL WhatsApp invalid atau konfigurasi kontak kosong/tidak valid, checkout ditolak dengan pesan yang jelas.
+- Checkout yang ditolak tidak boleh mengosongkan session cart.
+- Cart hanya boleh dikosongkan setelah URL checkout berhasil dibuat dan diproses, sebelum membuka WhatsApp; jangan mengosongkan cart sebagai respons sampingan kegagalan URL atau kontak.
+- Validasi form tetap menolak field wajib kosong sebelum interaksi dengan konfigurasi kontak.
 
 ## WhatsApp Order
 Format pesan:
@@ -115,13 +124,13 @@ Alamat: [Alamat]
 Catatan: [Catatan atau -]
 ```
 
-Setelah URL WhatsApp terbentuk, keranjang dikosongkan.
+Setelah URL WhatsApp valid terbentuk, keranjang dikosongkan dan WhatsApp dibuka. Jika konfigurasi kontak/URL invalid, cart dan input checkout dipertahankan.
 
 ## Blog
 - Daftar artikel dengan filter kategori.
 - Hanya artikel `published` dan `published_at <= now()` yang tampil publik.
 - Detail menampilkan judul, featured image, kategori, penulis, tanggal, reading time, dan HTML dari Rich Editor.
-- OpenGraph & Twitter Card dinamis.
+- Canonical URL, Open Graph, dan Twitter Card dinamis sesuai artikel yang sedang dilihat.
 
 ## Acceptance Criteria Utama
 - Pengunjung dapat menemukan produk melalui search dan filter tanpa full-page reload.

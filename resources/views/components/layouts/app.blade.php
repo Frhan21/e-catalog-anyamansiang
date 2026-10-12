@@ -13,8 +13,21 @@
         }
     </script>
 
+    <link rel="icon" href="{{ branding_url() }}">
     <title>@yield('title', setting('site_general.site_name', 'Koperasi Anyaman Mansiang'))</title>
     <meta name="description" content="@yield('description', setting('site_general.site_tagline'))">
+    @hasSection('canonical')
+        <link rel="canonical" href="@yield('canonical')">
+        <meta property="og:title" content="@yield('og_title')">
+        <meta property="og:description" content="@yield('og_description')">
+        <meta property="og:type" content="@yield('og_type', 'website')">
+        <meta property="og:url" content="@yield('canonical')">
+        @hasSection('og_image')<meta property="og:image" content="@yield('og_image')">@endif
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="@yield('og_title')">
+        <meta name="twitter:description" content="@yield('og_description')">
+        @hasSection('og_image')<meta name="twitter:image" content="@yield('og_image')">@endif
+    @endif
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles

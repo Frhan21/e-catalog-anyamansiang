@@ -102,9 +102,9 @@ class ManageLandingPage extends SettingPage
                             TextInput::make('landing_purpose.subtitle')->label('Subjudul'),
                             Repeater::make('landing_purpose.items')
                                 ->label('Item')
-                                ->helperText('Isi tepat empat tujuan untuk galeri dua kolom.')
-                                ->minItems(4)
-                                ->maxItems(4)
+                                ->helperText('Isi tepat tiga tujuan: satu gambar besar di kiri, dua gambar ditumpuk di kanan.')
+                                ->minItems(3)
+                                ->maxItems(3)
                                 ->schema([
                                     TextInput::make('title')->label('Judul'),
                                     TextInput::make('description')->label('Deskripsi'),

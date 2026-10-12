@@ -1,5 +1,11 @@
 <x-layouts.app>
     @section('title', $product->name . ' — ' . setting('site_general.site_name', 'Koperasi Anyaman Mansiang'))
+    @section('description', strip_tags($product->description ?: setting('site_general.site_tagline')))
+    @section('canonical', route('products.show', $product))
+    @section('og_title', $product->name)
+    @section('og_description', strip_tags($product->description ?: setting('site_general.site_tagline')))
+    @section('og_type', 'product')
+    @section('og_image', media_url($product->primary_image))
     @section('content')
         <section class="mx-auto max-w-6xl px-4 py-10 sm:py-14">
             <nav class="mb-8 flex items-center gap-2 text-sm text-mansiang-taupe" aria-label="Breadcrumb">
@@ -97,7 +103,9 @@
 
                     @php
                         $canOrder = $product->is_active && $product->availability_status->value !== 'out_of_stock';
-                        $buyUrl = $canOrder ? \App\Helpers\WhatsAppHelper::orderUrl($product, setting('contact_info', [])) : '#';
+                        $contact = setting('contact_info', []);
+                        $buyUrl = $canOrder ? \App\Helpers\WhatsAppHelper::orderUrl($product, $contact) : '#';
+                        $shareUrl = \App\Helpers\WhatsAppHelper::shareUrl($product);
                     @endphp
                     <div class="mt-9 flex flex-wrap items-center gap-3">
                         @if($canOrder)
@@ -110,9 +118,15 @@
                                 {{ __('Beli Sekarang') }}
                             </a>
                         @endif
+                        <a href="{{ $shareUrl }}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full border border-mansiang-ink/15 px-6 py-3 text-sm font-semibold text-mansiang-charcoal transition hover:border-mansiang-green hover:text-mansiang-green active:scale-[0.98]">
+                            {{ __('Bagikan ke WhatsApp') }}
+                        </a>
                         <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full border border-mansiang-ink/15 px-6 py-3 text-sm font-semibold text-mansiang-charcoal transition hover:border-mansiang-green hover:text-mansiang-green active:scale-[0.98]">
                             {{ __('Bagikan ke Facebook') }}
                         </a>
+                        <button type="button" data-share-copy data-url="{{ route('products.show', $product) }}" class="inline-flex items-center gap-2 rounded-full border border-mansiang-ink/15 px-6 py-3 text-sm font-semibold text-mansiang-charcoal transition hover:border-mansiang-green hover:text-mansiang-green active:scale-[0.98]">
+                            {{ __('Salin tautan') }}
+                        </button>
                     </div>
                 </div>
             </div>

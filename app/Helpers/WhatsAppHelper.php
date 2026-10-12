@@ -39,9 +39,14 @@ class WhatsAppHelper
         return self::contactUrl($number).'?text='.rawurlencode($message);
     }
 
-    public static function cartMessageUrl(string $number, array $items, array $buyer): string
+    public static function shareUrl(Product $product): string
     {
-        $digits = preg_replace('/[^0-9]/', '', $number);
+        return 'https://wa.me/?text='.rawurlencode($product->name.' — '.route('products.show', $product));
+    }
+
+    public static function cartMessageUrl(?string $number, array $items, array $buyer): string
+    {
+        $digits = $number ? preg_replace('/[^0-9]/', '', $number) : '';
 
         if (! $digits || count($items) === 0) {
             return '#';

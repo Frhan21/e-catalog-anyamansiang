@@ -53,7 +53,7 @@ it('renders about gallery as an overlay mosaic capped at ten items', function ()
         ->assertSee('absolute inset-x-0 bottom-0', false);
 });
 
-it('renders hero navigation, counters before a four-image purpose grid with side heading, theme controls, and dynamic map', function () {
+it('renders hero navigation, counters before a three-image purpose grid with side heading, theme controls, and dynamic map', function () {
     SiteSetting::create([
         'group' => 'landing',
         'key' => 'landing_hero',
@@ -72,7 +72,6 @@ it('renders hero navigation, counters before a four-image purpose grid with side
                 ['title' => 'Pemberdayaan', 'image' => 'settings/one.jpg'],
                 ['title' => 'Pelestarian', 'image' => 'settings/two.jpg'],
                 ['title' => 'Berkelanjutan', 'image' => 'settings/three.jpg'],
-                ['title' => 'Ekonomi Lokal', 'image' => 'settings/four.jpg'],
             ],
         ],
     ]);
@@ -92,7 +91,6 @@ it('renders hero navigation, counters before a four-image purpose grid with side
         ->assertSee('Pemberdayaan')
         ->assertSee('Pelestarian')
         ->assertSee('Berkelanjutan')
-        ->assertSee('Ekonomi Lokal')
         ->assertSee('data-swiper="hero"', false)
         ->assertSee('swiper-button-prev', false)
         ->assertSee('swiper-button-next', false)

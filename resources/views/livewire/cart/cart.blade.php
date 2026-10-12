@@ -81,6 +81,7 @@
                         @error('note') <p class="mt-1 text-xs font-medium text-red-600">{{ $message }}</p> @enderror
                     </div>
 
+                    @error('checkout') <p role="alert" class="text-sm font-medium text-red-600">{{ $message }}</p> @enderror
                     <button type="submit" class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-mansiang-green px-5 py-3.5 text-sm font-bold text-white transition hover:bg-mansiang-dark focus:outline-none focus:ring-2 focus:ring-mansiang-green/40 disabled:opacity-60" wire:loading.attr="disabled">
                         <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13 5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17"/><circle cx="9" cy="19" r="1" fill="currentColor"/><circle cx="17" cy="19" r="1" fill="currentColor"/></svg>
                         {{ __('Kirim Pesanan via WhatsApp') }}

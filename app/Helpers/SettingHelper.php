@@ -64,3 +64,23 @@ if (! function_exists('setting')) {
         return data_get($settings, $subKey, $default);
     }
 }
+
+if (! function_exists('branding_url')) {
+    function branding_url(): string
+    {
+        $path = setting('site_general.logo_path');
+
+        if (is_string($path) && $path !== '' && Storage::disk('public')->exists($path)) {
+            $absolutePath = Storage::disk('public')->path($path);
+            $seedLogoHash = '41d12832495c64e6b852daf8d7bc73670da701fe8e2583c556bb074213287eb8';
+
+            if (hash_file('sha256', $absolutePath) === $seedLogoHash) {
+                return asset('images/branding/logo.png');
+            }
+
+            return Storage::disk('public')->url($path);
+        }
+
+        return asset('images/branding/logo.png');
+    }
+}

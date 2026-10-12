@@ -61,7 +61,6 @@ class SiteSettingsSeeder extends Seeder
                         ['title' => 'Pemberdayaan Pengrajin', 'description' => 'Membuka lapangan kerja dan kemandirian finansial.', 'image' => 'https://upload.wikimedia.org/wikipedia/commons/4/44/Basket_weaving_in_process.jpg'],
                         ['title' => 'Pelestarian Warisan Kriya', 'description' => 'Menjaga teknik menganyam tradisional Minangkabau.', 'image' => 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Basket_weaver.jpg'],
                         ['title' => 'Pengembangan Produk Berkelanjutan', 'description' => 'Mengembangkan desain anyaman yang relevan dengan pasar modern.', 'image' => 'https://upload.wikimedia.org/wikipedia/commons/b/bb/Basket_weaving_crafts_on_display_at_Rumeilah_Park_in_Doha.jpg'],
-                        ['title' => 'Penguatan Ekonomi Lokal', 'description' => 'Memperluas peluang usaha dan pemasaran bagi masyarakat Taratak.', 'image' => 'https://upload.wikimedia.org/wikipedia/commons/4/44/Basket_weaving_in_process.jpg'],
                     ],
                 ],
             ],

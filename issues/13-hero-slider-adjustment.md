@@ -13,18 +13,19 @@ Hero slider sekarang punya pagination, autoplay, pause/resume button, dan label 
 - Style prev/next buttons agar konsisten dengan brand (round, transparent/ivory border).
 
 **Acceptance Criteria:**
-- [ ] Hero tetap autoplay saat load (multiple slides).
-- [ ] Tombol prev/next muncul di hero dan dapat diklik untuk navigasi.
-- [ ] Tidak ada tombol "Jeda slide" di hero.
-- [ ] Tidak ada teks "Foto contoh" / caption yang muncul di atas gambar hero.
-- [ ] Caption data tetap ada di CMS (untuk alt text) tapi tidak dirender sebagai visible label.
-- [ ] Pagination dot tetap bekerja.
-- [ ] `php artisan test`, `./vendor/bin/pint`, `npm run build` lulus.
+- [x] Hero tetap autoplay saat load (multiple slides).
+- [x] Tombol prev/next muncul di hero dan dapat diklik untuk navigasi.
+- [x] Tidak ada tombol "Jeda slide" di hero.
+- [x] Tidak ada teks "Foto contoh" / caption yang muncul di atas gambar hero.
+- [x] Caption data tetap ada di CMS (untuk alt text) tapi tidak dirender sebagai visible label.
+- [x] Pagination dot tetap bekerja.
+- [x] `php artisan test`, `./vendor/bin/pint`, `npm run build` lulus.
 
 **Blocked by:** None — can start immediately
 
-**Status:** todo
+**Status:** done
 
 **Catatan Testing:**
-- Pest feature: assert hero markup mengandung `.swiper-button-prev` & `.swiper-button-next`, tidak ada `data-swiper-autoplay-toggle`, tidak ada caption text di hero.
-- Manual: klik prev/next → slide berubah; autoplay tetap jalan; reload → autoplay aktif.
+- Pest: `.swiper-button-prev`/`.swiper-button-next` render; tanpa `data-swiper-autoplay-toggle`; tanpa caption visible.
+- Manual: prev/next berjalan; autoplay tetap active; dot paginasi berjalan.
+- Diverifikasi pengguna bersama penutupan fitur inti.

@@ -163,3 +163,42 @@ it('clears cart and dispatches whatsapp event after successful checkout', functi
         ->assertSessionMissing('cart_items')
         ->assertDispatched('open-whatsapp');
 });
+
+it('keeps cart when whatsapp contact is missing', function () {
+    $product = cartTestProduct();
+
+    Livewire::test(Cart::class)
+        ->call('add', $product)
+        ->set('name', 'Budi Santoso')
+        ->set('phone', '081234567890')
+        ->set('address', 'Jl. Taratak No. 10')
+        ->call('checkout')
+        ->assertSessionHas('cart_items')
+        ->assertNotDispatched('open-whatsapp');
+});
+it('uses the session snapshot at checkout', function () {
+    SiteSetting::create([
+        'group' => 'contact',
+        'key' => 'contact_info',
+        'payload' => ['whatsapp_number' => '6281234567890'],
+    ]);
+    $product = cartTestProduct();
+    $component = Livewire::test(Cart::class)->call('add', $product);
+    $component->set('items', [[
+        'id' => $product->id,
+        'name' => 'Data manipulasi',
+        'sku' => 'X',
+        'slug' => 'x',
+        'price' => 1,
+        'qty' => 1,
+    ]]);
+
+    $component
+        ->set('name', 'Budi Santoso')
+        ->set('phone', '081234567890')
+        ->set('address', 'Jl. Taratak No. 10')
+        ->call('checkout')
+        ->assertDispatched('open-whatsapp', function ($event, $params) {
+            return str_contains(urldecode($params['url']), 'Tikar Munjung (TM-001) x1 = Rp 100.000');
+        });
+});

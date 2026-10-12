@@ -3,11 +3,9 @@
 ## Otentikasi Admin
 - Single admin role.
 - Login mendukung email atau username.
-- Akun default dibuat oleh seeder:
-  - `email: anyamanmansiang@gmail.com`, password: `anyamanmansiang2026*` -> hanya untuk gmail saja, tidak usah gunakan di dalam aplikasi
-  - kredensial cpanel server `usn : anyamans`;  `pass : Xk:T+M$86E` -> ini juga tidak usah dimasukkan ke dalam aplikasi dan arsitektur auth nya 
-  - `username: anyamansiangadmin`, password: `adminanyamansiang123` -> gunakan ini, jika diperlukan dengan format email gunakan `anyamanmansiang@gmail.com`
-- Password default wajib diganti setelah login pertama.
+- Kredensial admin dan hosting tidak boleh ditulis di repository, seeder, dokumentasi, atau kode aplikasi.
+- Buat akun admin melalui mekanisme deployment yang aman dengan nilai dari environment atau secret manager, lalu ganti password sementara setelah login pertama.
+- Penghapusan kredensial dari working tree tidak menghapusnya dari riwayat Git. Pemilik sistem wajib merotasi seluruh kredensial yang pernah tercatat dan, bila diperlukan, membersihkan riwayat melalui prosedur terpisah yang terkoordinasi.
 
 ## Product Resource
 CRUD produk anyaman.
@@ -91,7 +89,8 @@ Pengaturan konten landing page.
 - `badge`: text.
 - `title`: text.
 - `subtitle`: text.
-- `items`: repeater berisi `title`, `description`, `image`.
+- `items`: repeater berisi `title`, `description`, `image`, wajib tepat 3 item sesuai plan penutupan fitur inti.
+- Catatan kondisi kode saat pemeriksaan: `ManageLandingPage` masih memakai `minItems(4)` dan `maxItems(4)`; penyesuaian validasi ke 3 item masuk issue 19, belum dilakukan dalam pembaruan dokumentasi ini.
 
 ### `landing_stats`
 - `stats`: repeater berisi `value`, `label`.
@@ -113,9 +112,10 @@ Pengaturan konten global.
 ### `site_general`
 - `site_name`: text.
 - `site_tagline`: text.
-- `logo_path`: image.
-- `favicon_path`: file.
+- `logo_path`: satu image logo untuk header, footer, favicon publik, dan branding admin; PNG, JPEG, atau WebP maksimal 2 MB.
 - `footer_description`: rich text.
+
+Semua slot memakai `branding_url()`. Logo memiliki backdrop ivory `#FDFBF7` pada tampilan publik dan admin light/dark. Fallback publik berasal dari PNG pengguna, tanpa redraw. Hanya hash placeholder seed lama yang dikecualikan; upload lain dipertahankan. Tidak membutuhkan migration atau seeder saat deployment; tidak ada field terpisah untuk light, mark, atau favicon.
 
 ### `contact_info`
 - `whatsapp_number`: text, format internasional tanpa tanda `+`.
@@ -135,7 +135,7 @@ Pengaturan konten global.
 ## Overview dan Navigasi Admin
 - Dashboard admin bernama `Overview`.
 - Overview menampilkan jumlah total produk, produk `ready_stock`, produk `pre_order`, produk `out_of_stock`, total artikel, artikel draft, dan artikel terbit.
-- Sidebar desktop dapat diciutkan menjadi ikon dengan tooltip; sidebar mobile tetap memakai drawer bawaan Filament.
+- Sidebar desktop terbuka menampilkan logo beserta nama situs. Saat diciutkan, header menampilkan logo yang dapat diklik untuk membuka sidebar dan kontrol buka native Filament tetap dapat dioperasikan melalui keyboard; sidebar mobile tetap memakai drawer bawaan Filament.
 - Navigasi disusun ringkas: Overview, Konten Situs, Katalog Produk, dan Blog.
 - Setiap kelompok dan item navigasi memiliki ikon.
 - Kelompok navigasi dapat dibuka dan ditutup serta tampil tertutup secara default untuk mengurangi scrolling.

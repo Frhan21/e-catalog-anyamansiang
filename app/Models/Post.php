@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Str;
 
 #[Fillable([
     'post_category_id',
@@ -39,6 +40,11 @@ class Post extends Model
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');
+    }
+
+    public function getExcerptAttribute(): string
+    {
+        return Str::words(trim(preg_replace('/\s+/u', ' ', strip_tags($this->content)) ?? ''), 30);
     }
 
     public function scopePublished($query)

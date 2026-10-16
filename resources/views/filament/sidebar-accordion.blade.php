@@ -1,6 +1,11 @@
 <script>
     document.addEventListener('alpine:init', () => {
         const sidebar = window.Alpine.store('sidebar')
+
+        if (!sidebar?.toggleCollapsedGroup) {
+            return
+        }
+
         const toggle = sidebar.toggleCollapsedGroup.bind(sidebar)
 
         sidebar.toggleCollapsedGroup = (group) => {

@@ -11,6 +11,7 @@ use Filament\Navigation\NavigationGroup;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Support\Facades\FilamentIcon;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -37,6 +38,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login(AdminLogin::class)
+            ->maxContentWidth(MaxWidth::Full)
             ->brandName(fn () => strval(setting('site_general.site_name', 'Anyaman Mansiang')))
             ->brandLogo(fn () => new HtmlString('<span data-admin-brand class="flex items-center gap-2"><img src="'.e(branding_url()).'" alt="'.e(setting('site_general.site_name', 'Anyaman Mansiang')).'" style="height:100%;width:2.25rem;object-fit:contain;background:#FDFBF7;padding:0.25rem;border-radius:0.5rem"><span>'.e(setting('site_general.site_name', 'Anyaman Mansiang')).'</span></span>'))
             ->brandLogoHeight('2.25rem')

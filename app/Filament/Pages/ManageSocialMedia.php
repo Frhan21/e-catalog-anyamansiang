@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 
 class ManageSocialMedia extends SettingPage
@@ -31,6 +32,8 @@ class ManageSocialMedia extends SettingPage
     protected function formSchema(): array
     {
         return [
+            Section::make('Panduan Media Sosial')
+                ->description('Form ini mengatur link ikon media sosial di website. Isi URL lengkap profil koperasi, termasuk https://.'),
             TextInput::make('instagram')->label('Instagram')->url(),
             TextInput::make('tiktok')->label('TikTok')->url(),
             TextInput::make('facebook')->label('Facebook')->url(),

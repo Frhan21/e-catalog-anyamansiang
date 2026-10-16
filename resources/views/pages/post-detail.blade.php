@@ -1,8 +1,8 @@
 <x-layouts.app>
     @php
         $siteName = setting('site_general.site_name', 'Koperasi Anyaman Mansiang');
-        $ogTitle = $post->meta_title ?: ($post->title . ' — ' . $siteName);
-        $ogDescription = $post->meta_description ?: $post->excerpt ?: strip_tags($post->content);
+        $ogTitle = $post->title . ' — ' . $siteName;
+        $ogDescription = $post->excerpt;
         $ogImage = $post->featured_image ? media_url($post->featured_image) : '';
     @endphp
     @section('title', $ogTitle)

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 
@@ -32,6 +33,8 @@ class ManageContactInfo extends SettingPage
     protected function formSchema(): array
     {
         return [
+            Section::make('Panduan Informasi Kontak')
+                ->description('Form ini mengatur cara pengunjung menghubungi koperasi serta informasi alamat, peta, dan jam operasional.'),
             TextInput::make('whatsapp_number')
                 ->label('Nomor WhatsApp')
                 ->required()
@@ -39,12 +42,14 @@ class ManageContactInfo extends SettingPage
                 ->regex('/^628\d{8,12}$/'),
             TextInput::make('whatsapp_display')
                 ->label('Nomor WhatsApp (tampilan)')
+                ->helperText('Nomor yang dibaca pengunjung, contoh: 0812 3456 7890.')
                 ->required(),
             TextInput::make('email')->label('Email')->email()->required(),
             TextInput::make('phone')->label('Telepon'),
             Textarea::make('address')->label('Alamat')->rows(3),
             Textarea::make('google_maps_embed')
-                ->label('Embed Google Maps')
+                ->label('Link Google Maps')
+                ->helperText('Tempel URL HTTPS lokasi dari Google Maps. Link ini dipakai untuk menampilkan atau membuka peta di footer.')
                 ->rows(3)
                 ->nullable()
                 ->rule(fn (): \Closure => fn (string $attribute, $value, \Closure $fail) => $value && ! google_maps_url($value) ? $fail(__('Masukkan URL Google Maps HTTPS yang valid.')) : null),

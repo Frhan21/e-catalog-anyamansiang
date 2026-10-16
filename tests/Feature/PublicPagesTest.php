@@ -41,7 +41,8 @@ it('renders public pages', function () {
         })
         ->assertViewHas('latestPosts', function ($posts) {
             expect($posts->first()->relationLoaded('author'))->toBeFalse();
-            expect($posts->first()->getAttributes())->not->toHaveKeys(['content', 'meta_description']);
+            expect($posts->first()->getAttributes())->toHaveKey('content');
+            expect($posts->first()->getAttributes())->not->toHaveKey('meta_description');
 
             return true;
         });
@@ -283,6 +284,13 @@ it('renders product seo metadata and share controls', function () {
         ->assertSee('Salin tautan');
 });
 
+it('builds a post excerpt from the first 30 content words', function () {
+    $content = '<p>'.implode('  ', array_map(fn ($word) => "kata{$word}", range(1, 31))).'</p>';
+    $post = new Post(['content' => $content, 'excerpt' => 'Ringkasan lama.']);
+
+    expect($post->excerpt)->toBe(implode(' ', array_map(fn ($word) => "kata{$word}", range(1, 30))).'...');
+});
+
 it('renders fallback seo metadata on the landing page', function () {
     $this->get('/')
         ->assertOk()
@@ -299,11 +307,11 @@ it('renders post seo metadata', function () {
         'post_category_id' => $postCategory->id,
         'title' => 'Mengenal Mansiang',
         'slug' => 'mengenal-mansiang',
-        'content' => '<p>Isi artikel.</p>',
-        'excerpt' => 'Mansiang adalah tanaman serat alami.',
+        'content' => '<p>Mansiang adalah   tanaman serat alami.</p>',
+        'excerpt' => 'Ringkasan lama.',
         'featured_image' => 'posts/mansiang.jpg',
-        'meta_title' => 'Mengenal Mansiang — Mansiang Kita',
-        'meta_description' => 'Deskripsi meta artikel.',
+        'meta_title' => 'Meta judul lama',
+        'meta_description' => 'Meta deskripsi lama.',
         'status' => PostStatus::Published,
         'published_at' => now(),
     ]);
@@ -313,8 +321,11 @@ it('renders post seo metadata', function () {
     $response
         ->assertOk()
         ->assertSee('<link rel="canonical" href="'.e(route('posts.show', $post)).'"', false)
-        ->assertSee('<meta property="og:title" content="'.e($post->meta_title).'"', false)
-        ->assertSee('<meta property="og:description" content="'.e($post->meta_description).'"', false)
+        ->assertSee('<meta property="og:title" content="Mengenal Mansiang — Koperasi Anyaman Mansiang"', false)
+        ->assertSee('<meta property="og:description" content="Mansiang adalah tanaman serat alami."', false)
+        ->assertDontSee('Meta judul lama')
+        ->assertDontSee('Meta deskripsi lama.')
+        ->assertDontSee('Ringkasan lama.')
         ->assertSee('<meta property="og:type" content="article"', false)
         ->assertSee('<meta property="og:url" content="'.e(route('posts.show', $post)).'"', false)
         ->assertSee('<meta name="twitter:card" content="summary_large_image"', false);

@@ -27,19 +27,26 @@ class PostCategoryResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label('Nama')
-                    ->required()
-                    ->live(onBlur: true)
-                    ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('slug', Str::slug($state))),
-                Forms\Components\TextInput::make('slug')
-                    ->required()
-                    ->unique(ignoreRecord: true)
-                    ->maxLength(180),
-                Forms\Components\Textarea::make('description')
-                    ->label('Deskripsi')
-                    ->rows(3)
-                    ->nullable(),
+                Forms\Components\Section::make('Panduan Kategori Artikel')
+                    ->description('Form ini mengatur kelompok artikel agar pengunjung lebih mudah menemukan topik yang dicari.')
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->label('Nama')
+                            ->required()
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('slug', Str::slug($state))),
+                        Forms\Components\TextInput::make('slug')
+                            ->helperText('Alamat kategori di website. Terisi otomatis dari nama; ubah hanya bila diperlukan.')
+                            ->required()
+                            ->unique(ignoreRecord: true)
+                            ->maxLength(180),
+                        Forms\Components\Textarea::make('description')
+                            ->label('Deskripsi')
+                            ->helperText('Penjelasan singkat mengenai topik artikel dalam kategori ini.')
+                            ->rows(3)
+                            ->nullable(),
+                    ])
+                    ->columnSpanFull(),
             ]);
     }
 

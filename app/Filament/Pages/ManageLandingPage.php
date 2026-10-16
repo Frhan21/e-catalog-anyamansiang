@@ -5,6 +5,7 @@ namespace App\Filament\Pages;
 use App\Models\SiteSetting;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\TextInput;
@@ -63,16 +64,21 @@ class ManageLandingPage extends SettingPage
     protected function formSchema(): array
     {
         return [
+            Section::make('Panduan Landing Page')
+                ->description('Form ini mengatur isi halaman depan website. Buka setiap tab untuk mengubah bagian yang sesuai, lalu klik Simpan.'),
             Tabs::make('landing-sections')
                 ->tabs([
                     Tab::make('Hero')
                         ->schema([
+                            Section::make('Bagian pembuka halaman')
+                                ->description('Hero tampil paling atas. Atur judul utama, tombol ajakan, dan foto bergeser yang pertama dilihat pengunjung.'),
                             TextInput::make('landing_hero.badge')->label('Badge'),
                             TextInput::make('landing_hero.headline')->label('Headline')->required(),
                             TextInput::make('landing_hero.subheadline')->label('Subheadline'),
                             TextInput::make('landing_hero.cta_text')->label('Teks CTA'),
-                            TextInput::make('landing_hero.cta_link')->label('Link CTA'),
+                            TextInput::make('landing_hero.cta_link')->label('Link CTA')->helperText('Alamat tujuan tombol, contoh: /products atau https://wa.me/6281234567890'),
                             Repeater::make('landing_hero.slides')
+                                ->helperText('Foto ditampilkan bergantian. Angka urutan lebih kecil tampil lebih dahulu.')
                                 ->label('Slideshow')
                                 ->schema([
                                     static::makeImageField('image', 'Gambar'),
@@ -83,6 +89,8 @@ class ManageLandingPage extends SettingPage
                         ]),
                     Tab::make('About')
                         ->schema([
+                            Section::make('Ringkasan tentang koperasi')
+                                ->description('Bagian ini mengenalkan koperasi secara singkat pada halaman depan, termasuk foto dan poin keunggulan.'),
                             TextInput::make('landing_about.badge')->label('Badge'),
                             TextInput::make('landing_about.title')->label('Judul'),
                             RichEditor::make('landing_about.description')->label('Deskripsi'),
@@ -97,6 +105,8 @@ class ManageLandingPage extends SettingPage
                         ]),
                     Tab::make('Purpose')
                         ->schema([
+                            Section::make('Tujuan koperasi')
+                                ->description('Bagian ini menjelaskan tiga tujuan utama koperasi beserta foto pendukungnya.'),
                             TextInput::make('landing_purpose.badge')->label('Badge'),
                             TextInput::make('landing_purpose.title')->label('Judul'),
                             TextInput::make('landing_purpose.subtitle')->label('Subjudul'),
@@ -113,7 +123,10 @@ class ManageLandingPage extends SettingPage
                         ]),
                     Tab::make('Stats')
                         ->schema([
+                            Section::make('Angka pencapaian')
+                                ->description('Tampilkan angka singkat yang menunjukkan dampak koperasi, seperti jumlah pengrajin atau produk.'),
                             Repeater::make('landing_stats.stats')
+                                ->helperText('Nilai boleh memakai tanda, contoh: 50+ atau 100%. Label menjelaskan arti angka.')
                                 ->label('Statistik')
                                 ->schema([
                                     TextInput::make('value')->label('Nilai'),

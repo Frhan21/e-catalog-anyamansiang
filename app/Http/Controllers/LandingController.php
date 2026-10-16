@@ -19,7 +19,7 @@ class LandingController extends Controller
             ->get();
 
         $latestPosts = Post::query()
-            ->select(['id', 'post_category_id', 'title', 'slug', 'excerpt', 'featured_image', 'published_at', 'reading_time_minutes', 'status'])
+            ->select(['id', 'post_category_id', 'title', 'slug', 'content', 'featured_image', 'published_at', 'reading_time_minutes', 'status'])
             ->published()
             ->with('category:id,name,slug')
             ->latest('published_at')

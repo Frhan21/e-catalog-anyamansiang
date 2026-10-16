@@ -6,17 +6,17 @@ Landing page sudah punya arah visual baru, tetapi beberapa bagian belum memenuhi
 
 ## Solution
 
-Tambahkan adjustment publik yang tetap ringan dan CMS-friendly: statistik dipindahkan sebelum section tujuan dan diberi animasi counter, section tujuan memakai empat gambar dengan layout desktop berupa heading di kiri dan galeri penuh di kanan, hero tetap autoplay tetapi punya tombol next/previous dan tidak menampilkan tombol jeda maupun label foto contoh, footer menampilkan Google Maps dari setting kontak, URL publik tetap memakai slug Inggris dengan tampilan Indonesia saja, dan theme mengikuti preferensi sistem dengan override user untuk light/dark.
+Tambahkan adjustment publik yang tetap ringan dan CMS-friendly: statistik dipindahkan sebelum section tujuan dan diberi animasi counter, section tujuan memakai tiga gambar dengan layout desktop berupa satu gambar besar di kiri dan dua gambar bertumpuk di kanan, hero tetap autoplay tetapi punya tombol next/previous dan tidak menampilkan tombol jeda maupun label foto contoh, footer menampilkan Google Maps dari setting kontak, URL publik tetap memakai slug Inggris dengan tampilan Indonesia saja, dan theme mengikuti preferensi sistem dengan override user untuk light/dark.
 
 ## User Stories
 
 1. As a visitor, I want statistics to appear before cooperative goals, so that impact is visible before reading purpose details.
 2. As a visitor, I want statistic values to count from zero, so that impact numbers feel active and intentional.
 3. As a visitor with reduced-motion preference, I want counters to render without distracting animation, so that the site respects my accessibility setting.
-4. As a visitor, I want the cooperative goals section to show four images, so that the mission feels more visual and credible.
-5. As a desktop visitor, I want the goals heading on the left and a two-by-two image gallery on the right, so that the section feels editorial instead of generic cards.
+4. As a visitor, I want the cooperative goals section to show three images, so that the mission feels more visual and credible.
+5. As a desktop visitor, I want one large goals image on the left and two stacked images on the right, so that the section feels editorial instead of generic cards.
 6. As a mobile visitor, I want the goals images to stack cleanly, so that the page stays easy to read on a small screen.
-7. As a content editor, I want all four goals images to remain editable from the landing page CMS, so that final cooperative photos can replace placeholders without code changes.
+7. As a content editor, I want all three goals images to remain editable from the landing page CMS, so that final cooperative photos can replace placeholders without code changes.
 8. As a visitor, I want the hero slider to keep autoplay, so that the landing page still feels alive.
 9. As a visitor, I want previous and next buttons on the hero slider, so that I can manually navigate hero photos.
 10. As a visitor, I do not want a visible pause button or placeholder-photo label in the hero, so that the first viewport feels clean.
@@ -51,8 +51,8 @@ Tambahkan adjustment publik yang tetap ringan dan CMS-friendly: statistik dipind
 - Counter animation uses existing GSAP or small native JavaScript; no extra counter package is added.
 - Counter values support common suffixes and prefixes such as `50+`, `100%`, and `10+`.
 - Counter animation honors reduced-motion preference and must not break values that are not parseable numbers.
-- Cooperative goals use exactly four visible items; admin validation should guide editors to provide four items.
-- Desktop goals layout uses a flex/grid split: section heading on the left and a 2x2 image gallery on the right; mobile collapses to one column.
+- Cooperative goals use exactly three visible items; admin validation should guide editors to provide three items.
+- Desktop goals layout uses one large image on the left and two stacked images on the right; mobile collapses to one column.
 - Footer map reads from `contact_info.google_maps_embed` and renders only when present.
 - Contact settings store the map URL dynamically. A Google Maps share URL may be stored initially, but implementation should prefer a proper embeddable URL before rendering an iframe.
 - Initial map source from user is `https://maps.app.goo.gl/cCn4xYfTiMox9Wf76`, resolving to Anyaman Mansiang Taratak/TOKO SABIL at approximately `-0.1439297,100.4908906`.
@@ -66,7 +66,7 @@ Tambahkan adjustment publik yang tetap ringan dan CMS-friendly: statistik dipind
 - Feature tests should verify theme toggle markup and early theme preference hooks exist.
 - Feature tests should verify hero slider renders previous and next controls, retains autoplay-compatible markup, and does not render the old pause button.
 - Feature tests should verify stats markup appears before purpose markup and includes counter data attributes.
-- Feature tests should verify purpose section renders four configured items with heading-left and two-by-two desktop layout hooks.
+- Feature tests should verify purpose section renders three configured items with one-large-and-two-stacked desktop layout hooks.
 - Feature tests should verify footer map area renders when `contact_info.google_maps_embed` is present and is absent or downgraded to a link when empty/invalid.
 - Existing Pest feature tests remain the main seam. Browser/manual verification covers actual Swiper navigation, counter animation, system theme behavior, and responsive layout.
 - Full verification before completion: `php artisan test`, `./vendor/bin/pint`, `npm run build`.

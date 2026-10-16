@@ -28,94 +28,106 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Group::make()
+                Forms\Components\Section::make('Panduan Produk')
+                    ->description('Form ini mengatur produk yang tampil di katalog. Isi identitas, harga, ketersediaan, dan foto produk.')
                     ->schema([
-                        Forms\Components\TextInput::make('name')
-                            ->label('Nama Produk')
-                            ->required()
-                            ->live(onBlur: true)
-                            ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('slug', Str::slug($state))),
-                        Forms\Components\TextInput::make('slug')
-                            ->required()
-                            ->unique(ignoreRecord: true)
-                            ->maxLength(255),
-                        Forms\Components\Select::make('category_id')
-                            ->label('Kategori')
-                            ->relationship('category', 'name')
-                            ->required(),
-                        Forms\Components\TextInput::make('sku')
-                            ->label('SKU')
-                            ->maxLength(50)
-                            ->unique(ignoreRecord: true)
-                            ->nullable(),
-                        Forms\Components\TextInput::make('price')
-                            ->label('Harga')
-                            ->numeric()
-                            ->minValue(0)
-                            ->required()
-                            ->prefix('Rp'),
-                        Forms\Components\Textarea::make('description')
-                            ->label('Deskripsi')
-                            ->rows(6)
-                            ->nullable(),
-                        Forms\Components\TextInput::make('dimensions')
-                            ->label('Dimensi')
-                            ->maxLength(150)
-                            ->nullable(),
-                        Forms\Components\TextInput::make('material')
-                            ->label('Material')
-                            ->default('100% Tanaman Mansiang Alami')
-                            ->required(),
-                        Forms\Components\RichEditor::make('usage_instructions')
-                            ->label('Petunjuk Penggunaan/Perawatan')
-                            ->nullable(),
-                        Forms\Components\Select::make('availability_status')
-                            ->label('Status Ketersediaan')
-                            ->options(collect(AvailabilityStatus::cases())->mapWithKeys(fn ($e) => [$e->value => $e->name]))
-                            ->required()
-                            ->default(AvailabilityStatus::ReadyStock->value)
-                            ->live(),
-                        Forms\Components\TextInput::make('estimated_production_days')
-                            ->label('Estimasi Produksi (hari)')
-                            ->integer()
-                            ->minValue(1)
-                            ->nullable()
-                            ->visible(fn (Forms\Get $get) => $get('availability_status') === AvailabilityStatus::PreOrder->value)
-                            ->requiredIf('availability_status', AvailabilityStatus::PreOrder->value),
-                        Forms\Components\Toggle::make('is_featured')
-                            ->label('Produk Unggulan')
-                            ->default(false),
-                        Forms\Components\Toggle::make('is_active')
-                            ->label('Aktif')
-                            ->default(true),
-                        Forms\Components\FileUpload::make('primary_image')
-                            ->label('Gambar Utama')
-                            ->disk('public')
-                            ->directory('products')
-                            ->image()
-                            ->imageEditor()
-                            ->required(),
-                        Forms\Components\Repeater::make('images')
-                            ->label('Galeri')
-                            ->relationship()
+                        Forms\Components\Group::make()
                             ->schema([
-                                Forms\Components\FileUpload::make('image_path')
-                                    ->label('Gambar')
+                                Forms\Components\TextInput::make('name')
+                                    ->label('Nama Produk')
+                                    ->required()
+                                    ->live(onBlur: true)
+                                    ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('slug', Str::slug($state))),
+                                Forms\Components\TextInput::make('slug')
+                                    ->helperText('Alamat produk di website. Terisi otomatis dari nama; ubah hanya bila diperlukan.')
+                                    ->required()
+                                    ->unique(ignoreRecord: true)
+                                    ->maxLength(255),
+                                Forms\Components\Select::make('category_id')
+                                    ->label('Kategori')
+                                    ->relationship('category', 'name')
+                                    ->required(),
+                                Forms\Components\TextInput::make('sku')
+                                    ->label('SKU')
+                                    ->maxLength(50)
+                                    ->unique(ignoreRecord: true)
+                                    ->nullable(),
+                                Forms\Components\TextInput::make('price')
+                                    ->label('Harga')
+                                    ->numeric()
+                                    ->minValue(0)
+                                    ->required()
+                                    ->prefix('Rp'),
+                                Forms\Components\Textarea::make('description')
+                                    ->label('Deskripsi')
+                                    ->rows(6)
+                                    ->nullable(),
+                                Forms\Components\TextInput::make('dimensions')
+                                    ->label('Dimensi')
+                                    ->maxLength(150)
+                                    ->nullable(),
+                                Forms\Components\TextInput::make('material')
+                                    ->label('Material')
+                                    ->default('100% Tanaman Mansiang Alami')
+                                    ->required(),
+                                Forms\Components\RichEditor::make('usage_instructions')
+                                    ->label('Petunjuk Penggunaan/Perawatan')
+                                    ->nullable(),
+                                Forms\Components\Select::make('availability_status')
+                                    ->label('Status Ketersediaan')
+                                    ->helperText('Ready Stock: siap dibeli. Pre Order: perlu waktu produksi. Out Of Stock: sedang tidak tersedia.')
+                                    ->options(collect(AvailabilityStatus::cases())->mapWithKeys(fn ($e) => [$e->value => $e->name]))
+                                    ->required()
+                                    ->default(AvailabilityStatus::ReadyStock->value)
+                                    ->live(),
+                                Forms\Components\TextInput::make('estimated_production_days')
+                                    ->label('Estimasi Produksi (hari)')
+                                    ->integer()
+                                    ->minValue(1)
+                                    ->nullable()
+                                    ->visible(fn (Forms\Get $get) => $get('availability_status') === AvailabilityStatus::PreOrder->value)
+                                    ->requiredIf('availability_status', AvailabilityStatus::PreOrder->value),
+                                Forms\Components\Toggle::make('is_featured')
+                                    ->label('Produk Unggulan')
+                                    ->helperText('Aktifkan agar produk mendapat prioritas pada bagian produk unggulan.')
+                                    ->default(false),
+                                Forms\Components\Toggle::make('is_active')
+                                    ->label('Aktif')
+                                    ->helperText('Matikan untuk menyembunyikan produk dari pengunjung tanpa menghapusnya.')
+                                    ->default(true),
+                                Forms\Components\FileUpload::make('primary_image')
+                                    ->label('Gambar Utama')
+                                    ->helperText('Foto utama yang tampil pada kartu katalog dan halaman detail produk.')
                                     ->disk('public')
                                     ->directory('products')
                                     ->image()
                                     ->imageEditor()
                                     ->required(),
-                                Forms\Components\TextInput::make('caption')
-                                    ->label('Caption')
-                                    ->nullable(),
-                                Forms\Components\TextInput::make('sort_order')
-                                    ->label('Urutan')
-                                    ->integer()
-                                    ->default(0),
-                            ])
-                            ->columns(3),
-                    ])->columns(2),
+                                Forms\Components\Repeater::make('images')
+                                    ->label('Galeri')
+                                    ->helperText('Foto tambahan pada halaman detail. Angka urutan lebih kecil tampil lebih dahulu.')
+                                    ->relationship()
+                                    ->schema([
+                                        Forms\Components\FileUpload::make('image_path')
+                                            ->label('Gambar')
+                                            ->disk('public')
+                                            ->directory('products')
+                                            ->image()
+                                            ->imageEditor()
+                                            ->required(),
+                                        Forms\Components\TextInput::make('caption')
+                                            ->label('Caption')
+                                            ->nullable(),
+                                        Forms\Components\TextInput::make('sort_order')
+                                            ->label('Urutan')
+                                            ->integer()
+                                            ->default(0),
+                                    ])
+                                    ->columns(3),
+                            ])->columns(2)
+                            ->columnSpanFull(),
+                    ])
+                    ->columnSpanFull(),
             ]);
     }
 

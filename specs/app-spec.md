@@ -139,7 +139,8 @@ Setelah URL WhatsApp valid terbentuk, keranjang dikosongkan dan WhatsApp dibuka.
 - Daftar artikel dengan filter kategori.
 - Hanya artikel `published` dan `published_at <= now()` yang tampil publik.
 - Detail menampilkan judul, featured image, kategori, penulis, tanggal, reading time, dan HTML dari Rich Editor.
-- Canonical URL, Open Graph, dan Twitter Card dinamis sesuai artikel yang sedang dilihat.
+- Ringkasan artikel dibuat otomatis dari maksimal 30 kata pertama `content` setelah HTML dan spasi berlebih dihapus.
+- Canonical URL, Open Graph, dan Twitter Card dinamis sesuai artikel yang sedang dilihat. Meta judul memakai judul artikel dan nama situs; meta deskripsi memakai ringkasan otomatis.
 - `og:image` dan `twitter:image` wajib berupa URL absolut. Detail artikel memakai featured image jika ada; jika kosong memakai fallback `public/images/branding/og-default.png`.
 
 ## Acceptance Criteria Utama

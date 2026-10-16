@@ -7,6 +7,7 @@ use App\Enums\PostStatus;
 use App\Filament\Pages\AdminLogin;
 use App\Filament\Pages\ManageContactInfo;
 use App\Filament\Pages\ManageLandingPage;
+use App\Filament\Resources\PostResource\Pages\CreatePost;
 use App\Models\Post;
 use App\Models\PostCategory;
 use App\Models\Product;
@@ -16,8 +17,11 @@ use App\Models\User;
 use Database\Seeders\AdminUserSeeder;
 use Database\Seeders\SiteSettingsSeeder;
 use Filament\Facades\Filament;
+use Filament\Support\Enums\MaxWidth;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
 
@@ -54,6 +58,11 @@ class AdminPagesTest extends TestCase
         $this->assertGuest();
     }
 
+    public function test_admin_panel_uses_full_content_width(): void
+    {
+        $this->assertSame(MaxWidth::Full, Filament::getPanel('admin')->getMaxContentWidth());
+    }
+
     public function test_authenticated_admin_pages_render(): void
     {
         $this->actingAs(User::factory()->create());
@@ -70,6 +79,27 @@ class AdminPagesTest extends TestCase
         }
     }
 
+    public function test_content_forms_show_plain_language_guidance(): void
+    {
+        $this->actingAs(User::factory()->create());
+
+        foreach ([
+            '/admin/manage-landing-page' => 'Form ini mengatur isi halaman depan website.',
+            '/admin/manage-about-page' => 'Form ini mengatur cerita koperasi pada halaman Tentang Kami',
+            '/admin/manage-site-settings' => 'Form ini mengatur identitas yang dipakai di seluruh website',
+            '/admin/manage-contact-info' => 'Form ini mengatur cara pengunjung menghubungi koperasi',
+            '/admin/manage-social-media' => 'Form ini mengatur link ikon media sosial di website.',
+            '/admin/products/create' => 'Form ini mengatur produk yang tampil di katalog.',
+            '/admin/product-categories/create' => 'Form ini mengatur kelompok produk pada katalog',
+            '/admin/posts/create' => 'Form ini mengatur artikel pada halaman blog.',
+            '/admin/post-categories/create' => 'Form ini mengatur kelompok artikel',
+        ] as $path => $guidance) {
+            $this->get($path)
+                ->assertOk()
+                ->assertSee($guidance);
+        }
+    }
+
     public function test_admin_sidebar_groups_resources_and_pages(): void
     {
         $this->actingAs(User::factory()->create());
@@ -79,6 +109,45 @@ class AdminPagesTest extends TestCase
         $response->assertSee('Konten Situs');
         $response->assertSee('Katalog Produk');
         $response->assertSee('Blog');
+    }
+
+    public function test_post_form_hides_automatically_generated_metadata(): void
+    {
+        $this->actingAs(User::factory()->create());
+
+        $this->get('/admin/posts/create')
+            ->assertOk()
+            ->assertSee('Format JPG, PNG, atau WebP. Ukuran maksimal 2 MB.')
+            ->assertDontSee('Ringkasan')
+            ->assertDontSee('Meta Judul')
+            ->assertDontSee('Meta Deskripsi');
+    }
+
+    public function test_admin_can_publish_post_with_featured_image(): void
+    {
+        Storage::fake('public');
+        $this->actingAs(User::factory()->create());
+        $category = PostCategory::create(['name' => 'Berita', 'slug' => 'berita']);
+
+        Livewire::test(CreatePost::class)
+            ->fillForm([
+                'post_category_id' => $category->id,
+                'title' => 'Artikel Baru',
+                'slug' => 'artikel-baru',
+                'content' => 'Isi artikel',
+                'featured_image' => UploadedFile::fake()->image('artikel.jpg'),
+                'status' => PostStatus::Published->value,
+                'published_at' => now(),
+                'reading_time_minutes' => 1,
+            ])
+            ->call('create')
+            ->assertHasNoFormErrors();
+
+        $post = Post::where('slug', 'artikel-baru')->firstOrFail();
+
+        Storage::disk('public')->assertExists($post->featured_image);
+        $this->get('/blog')->assertSee('Artikel Baru');
+        $this->get('/')->assertSee('Artikel Baru');
     }
 
     public function test_overview_shows_product_and_post_statistics(): void

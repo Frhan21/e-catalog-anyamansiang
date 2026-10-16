@@ -28,33 +28,41 @@ class ProductCategoryResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label('Nama')
-                    ->required()
-                    ->live(onBlur: true)
-                    ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('slug', Str::slug($state))),
-                Forms\Components\TextInput::make('slug')
-                    ->required()
-                    ->unique(ignoreRecord: true)
-                    ->maxLength(180),
-                Forms\Components\Textarea::make('description')
-                    ->label('Deskripsi')
-                    ->rows(3)
-                    ->nullable(),
-                Forms\Components\FileUpload::make('image')
-                    ->label('Gambar')
-                    ->disk('public')
-                    ->directory('products')
-                    ->image()
-                    ->imageEditor()
-                    ->nullable(),
-                Forms\Components\TextInput::make('sort_order')
-                    ->label('Urutan')
-                    ->integer()
-                    ->default(0),
-                Forms\Components\Toggle::make('is_active')
-                    ->label('Aktif')
-                    ->default(true),
+                Forms\Components\Section::make('Panduan Kategori Produk')
+                    ->description('Form ini mengatur kelompok produk pada katalog dan pilihan filter untuk pengunjung.')
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->label('Nama')
+                            ->required()
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('slug', Str::slug($state))),
+                        Forms\Components\TextInput::make('slug')
+                            ->helperText('Alamat kategori di website. Terisi otomatis dari nama; ubah hanya bila diperlukan.')
+                            ->required()
+                            ->unique(ignoreRecord: true)
+                            ->maxLength(180),
+                        Forms\Components\Textarea::make('description')
+                            ->label('Deskripsi')
+                            ->rows(3)
+                            ->nullable(),
+                        Forms\Components\FileUpload::make('image')
+                            ->label('Gambar')
+                            ->disk('public')
+                            ->directory('products')
+                            ->image()
+                            ->imageEditor()
+                            ->nullable(),
+                        Forms\Components\TextInput::make('sort_order')
+                            ->label('Urutan')
+                            ->helperText('Angka lebih kecil tampil lebih dahulu.')
+                            ->integer()
+                            ->default(0),
+                        Forms\Components\Toggle::make('is_active')
+                            ->label('Aktif')
+                            ->helperText('Matikan untuk menyembunyikan kategori dari filter tanpa menghapus produknya.')
+                            ->default(true),
+                    ])
+                    ->columnSpanFull(),
             ]);
     }
 

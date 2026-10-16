@@ -7,6 +7,12 @@
 - Buat akun admin melalui mekanisme deployment yang aman dengan nilai dari environment atau secret manager, lalu ganti password sementara setelah login pertama.
 - Penghapusan kredensial dari working tree tidak menghapusnya dari riwayat Git. Pemilik sistem wajib merotasi seluruh kredensial yang pernah tercatat dan, bila diperlukan, membersihkan riwayat melalui prosedur terpisah yang terkoordinasi.
 
+## Panduan Form CMS
+- Setiap form konten menjelaskan bagian website yang diatur dan dampak perubahan kepada pengunjung.
+- Bagian form yang berbeda memiliki deskripsi singkat dengan bahasa Indonesia nonteknis.
+- Input yang rawan salah memiliki petunjuk atau contoh, terutama slug, status publikasi, status ketersediaan, urutan, URL, nomor WhatsApp, dan gambar.
+- Panduan memakai komponen bawaan Filament tanpa tutorial atau dependency tambahan.
+
 ## Product Resource
 CRUD produk anyaman.
 
@@ -48,14 +54,15 @@ CRUD artikel blog.
 Field:
 - `post_category_id`: select kategori artikel, required.
 - `author_id`: select admin, nullable.
-- `title`, `slug`, `excerpt`, `content`, `featured_image`, `status`, `published_at`, `reading_time_minutes`, `meta_title`, `meta_description`.
+- `title`, `slug`, `content`, `featured_image`, `status`, `published_at`, `reading_time_minutes`.
+- Ringkasan tidak diinput admin; sistem mengambil maksimal 30 kata dari teks `content` setelah HTML dan spasi berlebih dihapus.
+- Meta judul memakai `title` dan nama situs. Meta deskripsi memakai ringkasan otomatis.
+- Kolom lama `excerpt`, `meta_title`, dan `meta_description` dipertahankan untuk kompatibilitas data, tetapi tidak ditampilkan pada form dan tidak dipakai pada halaman publik.
 
 Validasi:
 - `slug` unique.
 - `published_at` wajib diisi jika status `published`.
 - `featured_image` wajib untuk artikel published.
-- `meta_title` maksimal 255 karakter.
-- `meta_description` maksimal 500 karakter.
 
 ## Post Category Resource
 CRUD kategori artikel.
@@ -89,8 +96,7 @@ Pengaturan konten landing page.
 - `badge`: text.
 - `title`: text.
 - `subtitle`: text.
-- `items`: repeater berisi `title`, `description`, `image`, wajib tepat 3 item sesuai plan penutupan fitur inti.
-- Catatan kondisi kode saat pemeriksaan: `ManageLandingPage` masih memakai `minItems(4)` dan `maxItems(4)`; penyesuaian validasi ke 3 item masuk issue 19, belum dilakukan dalam pembaruan dokumentasi ini.
+- `items`: repeater berisi `title`, `description`, `image`, wajib tepat 3 item: satu gambar besar di kiri dan dua gambar bertumpuk di kanan.
 
 ### `landing_stats`
 - `stats`: repeater berisi `value`, `label`.

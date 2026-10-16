@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 
 class ManageAboutPage extends SettingPage
@@ -33,13 +34,16 @@ class ManageAboutPage extends SettingPage
     protected function formSchema(): array
     {
         return [
-            static::makeImageField('hero_image', 'Gambar Hero'),
+            Section::make('Panduan Halaman Tentang Kami')
+                ->description('Form ini mengatur cerita koperasi pada halaman Tentang Kami: foto pembuka, sejarah, dampak, dan galeri kegiatan.'),
+            static::makeImageField('hero_image', 'Gambar Hero')->helperText('Foto pembuka yang tampil di bagian atas halaman.'),
             TextInput::make('history_title')->label('Judul Sejarah')->required(),
             RichEditor::make('history_narrative')->label('Naratif Sejarah')->required(),
             TextInput::make('impact_title')->label('Judul Dampak')->required(),
             RichEditor::make('impact_narrative')->label('Naratif Dampak')->required(),
             Repeater::make('gallery')
                 ->label('Galeri')
+                ->helperText('Tambahkan foto kegiatan koperasi. Caption menjelaskan isi foto.')
                 ->schema([
                     static::makeImageField('image', 'Gambar'),
                     TextInput::make('caption')->label('Caption'),

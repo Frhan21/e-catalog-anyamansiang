@@ -11,7 +11,7 @@ class PostController extends Controller
     public function index(): View
     {
         $posts = Post::query()
-            ->select(['id', 'post_category_id', 'title', 'slug', 'excerpt', 'featured_image', 'published_at', 'reading_time_minutes', 'status'])
+            ->select(['id', 'post_category_id', 'title', 'slug', 'content', 'featured_image', 'published_at', 'reading_time_minutes', 'status'])
             ->published()
             ->with('category:id,name,slug')
             ->latest('published_at')
@@ -27,7 +27,7 @@ class PostController extends Controller
         abort_unless(Post::published()->whereKey($post)->exists(), 404);
 
         $relatedPosts = Post::query()
-            ->select(['id', 'post_category_id', 'title', 'slug', 'excerpt', 'featured_image', 'published_at', 'reading_time_minutes', 'status'])
+            ->select(['id', 'post_category_id', 'title', 'slug', 'content', 'featured_image', 'published_at', 'reading_time_minutes', 'status'])
             ->published()
             ->where('post_category_id', $post->post_category_id)
             ->whereKeyNot($post->id)
@@ -44,7 +44,7 @@ class PostController extends Controller
     public function category(PostCategory $category): View
     {
         $posts = $category->posts()
-            ->select(['id', 'post_category_id', 'title', 'slug', 'excerpt', 'featured_image', 'published_at', 'reading_time_minutes', 'status'])
+            ->select(['id', 'post_category_id', 'title', 'slug', 'content', 'featured_image', 'published_at', 'reading_time_minutes', 'status'])
             ->published()
             ->with('category:id,name,slug')
             ->latest('published_at')
